@@ -9,6 +9,7 @@
 */
 
 #include "rcfileview.h"
+#include "../searchableviewinterface.h"
 #include "acceleratormodel.h"
 #include "assetmodel.h"
 #include "datamodel.h"
@@ -47,11 +48,14 @@ protected:
 
 RcFileView::RcFileView(QWidget *parent)
     : QWidget(parent)
+    , FindInterface(FindInterface::CanSearch)
     , ui(new Ui::RcFileView)
     , m_dataProxyModel(new DataProxy(this))
     , m_contentProxyModel(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
+
+    m_searchableViewInterface = new Gui::SearchableViewInterface(ui->dataView);
 
     ui->dataView->setSortingEnabled(true);
     ui->dataView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -125,6 +129,11 @@ void RcFileView::setRcFile(const RcCore::RcFile &rcFile)
 QPlainTextEdit *RcFileView::textEdit() const
 {
     return ui->textEdit;
+}
+
+void RcFileView::find(const QString &text, int options)
+{
+    m_searchableViewInterface->find(text, options);
 }
 
 void RcFileView::changeDataItem(const QModelIndex &current)
