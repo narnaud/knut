@@ -22,7 +22,7 @@ class QMdiSubWindow;
 
 namespace Gui {
 
-class SearchableTableView;
+class SearchableViewInterface;
 
 class QtUiView : public QSplitter, public FindInterface
 {
@@ -39,7 +39,8 @@ public:
 private:
     void updateView();
 
-    SearchableTableView *const m_tableView;
+    QTableView *const m_tableView;
+    SearchableViewInterface *const m_searchableViewInterface;
     QMdiArea *const m_previewArea;
     Core::QtUiDocument *m_document = nullptr;
     QMdiSubWindow *m_previewWindow = nullptr;

@@ -93,8 +93,8 @@ set(PROJECT_SOURCES
     scriptpanel.cpp
     scriptlistpanel.cpp
     scriptlistpanel.h
-    searchabletableview.h
-    searchabletableview.cpp
+    searchableviewinterface.h
+    searchableviewinterface.cpp
     shortcutmanager.h
     shortcutmanager.cpp
     shortcutsettings.h
