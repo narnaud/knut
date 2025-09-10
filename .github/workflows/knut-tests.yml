@@ -121,23 +121,9 @@ jobs:
       - name: Run sccache-cache
         uses: mozilla-actions/sccache-action@v0.0.3
 
-      - name: Install recent clang
-        uses: KyleMayes/install-llvm-action@v2
+      - name: Install clazy
         if: ${{ matrix.cmake_preset == 'clazy' }}
-        with:
-          version: "17"
-          env: true
-
-      - name: Build & Install clazy
-        if: ${{ matrix.cmake_preset == 'clazy' }}
-        run: |
-          git clone --depth=1 https://github.com/KDE/clazy.git
-          cd clazy/
-          cmake -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache -DLINK_CLAZY_TO_LLVM=OFF -DCMAKE_BUILD_TYPE=Release -G Ninja -DLLVM_ROOT=${{ env.LLVM_PATH }}
-          cmake --build .
-          sudo cmake --build . --target install
-          cd ..
-          echo "CLANGXX=${{ env.LLVM_PATH }}/bin/clang++" >> $GITHUB_ENV
+        run: sudo apt install clazy
 
       - name: Configure project
         run: cmake -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache --preset=${{ matrix.cmake_preset }}
